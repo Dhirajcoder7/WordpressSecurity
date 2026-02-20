@@ -15,6 +15,6 @@ window.addEventListener("load", function () {
         el.removeAttribute('style');
     });
 
-    console.log("All Clear");
+    });
 
-});
+console.log("All Clear");
