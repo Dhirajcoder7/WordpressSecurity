@@ -1,99 +1,97 @@
-// window.addEventListener("load", function () {
-
-//     // Remove all external stylesheets
-//     document.querySelectorAll('link[rel="stylesheet"]').forEach(function(el){
-//         el.remove();
-//     });
-
-//     // Remove all <style> tags
-//     document.querySelectorAll('style').forEach(function(el){
-//         el.remove();
-//     });
-
-//     // Remove all inline styles
-//     document.querySelectorAll('*').forEach(function(el){
-//         el.removeAttribute('style');
-//     });
-
-//     });
-
-console.log("All Clear...");
-
-
-
-
-
-
-
-
-
-
-
 (function () {
+  const MAINTENANCE_START_HOUR = 13;
+  const MAINTENANCE_START_MINUTE = 0;
+  const MAINTENANCE_END_HOUR = 13;
+  const MAINTENANCE_END_MINUTE = 30;
 
-    const MAINTENANCE_ACTIVE = true; // turn false to disable
+  function isMaintenanceTime() {
+    const now = new Date();
 
-    if (!MAINTENANCE_ACTIVE) return;
+    const start = new Date();
+    start.setHours(MAINTENANCE_START_HOUR, MAINTENANCE_START_MINUTE, 0, 0);
 
-    // Optional: allow admin access (remove if not needed)
-    if (document.cookie.includes("wordpress_logged_in")) {
-        return;
-    }
+    const end = new Date();
+    end.setHours(MAINTENANCE_END_HOUR, MAINTENANCE_END_MINUTE, 0, 0);
 
-    // Send proper 503 header (SEO friendly)
-    try {
-        if (typeof window.fetch === "function") {
-            console.log("Maintenance Mode Active");
-        }
-    } catch (e) {}
+    return now >= start && now <= end;
+  }
 
-    // Hide entire page
-    document.documentElement.style.background = "#ffffff";
-    document.body.innerHTML = "";
-    document.body.style.margin = "0";
-
-    // Create maintenance overlay
+  function createMaintenancePopup() {
     const overlay = document.createElement("div");
     overlay.style.position = "fixed";
-    overlay.style.inset = "0";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100vw";
+    overlay.style.height = "100vh";
+    overlay.style.background = "linear-gradient(135deg, #141e30, #243b55)";
     overlay.style.display = "flex";
-    overlay.style.flexDirection = "column";
-    overlay.style.justifyContent = "center";
     overlay.style.alignItems = "center";
-    overlay.style.background = "#ffffff";
-    overlay.style.textAlign = "center";
-    overlay.style.fontFamily = "Arial, sans-serif";
-    overlay.style.padding = "20px";
+    overlay.style.justifyContent = "center";
     overlay.style.zIndex = "999999";
+    overlay.style.fontFamily = "Arial, sans-serif";
 
-    overlay.innerHTML = `
-        <h1 style="color:#2b6cb0; font-size:28px; margin-bottom:20px;">
-            503 Service Temporarily Unavailable
-        </h1>
-        <p style="font-size:16px; color:#444; margin:6px 0;">
-            Our website is currently undergoing maintenance.
-        </p>
-        <p style="font-size:15px; color:#666; margin-top:10px;">
-            Our technical team is working to resolve the issue.
-        </p>
-        <p style="font-size:14px; color:#999; margin-top:20px;">
-            The issue will be resolved within 24 hours.
-        </p>
-    `;
+    const box = document.createElement("div");
+    box.style.background = "#ffffff";
+    box.style.padding = "50px";
+    box.style.borderRadius = "14px";
+    box.style.boxShadow = "0 25px 70px rgba(0,0,0,0.45)";
+    box.style.textAlign = "center";
+    box.style.maxWidth = "420px";
+    box.style.width = "90%";
 
+    const title = document.createElement("h1");
+    title.innerText = "🚧 Scheduled Maintenance";
+    title.style.marginBottom = "15px";
+    title.style.fontSize = "26px";
+    title.style.color = "#222";
+
+    const message = document.createElement("p");
+    message.innerText =
+      "We’re upgrading our systems.\nService will resume at 1:30 PM.";
+    message.style.fontSize = "16px";
+    message.style.color = "#555";
+    message.style.whiteSpace = "pre-line";
+    message.style.lineHeight = "1.6";
+
+    const timer = document.createElement("div");
+    timer.style.marginTop = "20px";
+    timer.style.fontSize = "14px";
+    timer.style.color = "#777";
+
+    box.appendChild(title);
+    box.appendChild(message);
+    box.appendChild(timer);
+    overlay.appendChild(box);
     document.body.appendChild(overlay);
 
+    const interval = setInterval(() => {
+      const now = new Date();
+      const end = new Date();
+      end.setHours(MAINTENANCE_END_HOUR, MAINTENANCE_END_MINUTE, 0, 0);
+
+      const diff = end - now;
+
+      if (diff <= 0) {
+        clearInterval(interval);
+        location.reload();
+      } else {
+        const minutes = Math.floor(diff / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+        timer.innerText = `Resuming in ${minutes}m ${seconds}s`;
+      }
+    }, 1000);
+  }
+
+  function init() {
+    if (isMaintenanceTime()) {
+      document.documentElement.style.overflow = "hidden";
+      createMaintenancePopup();
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
