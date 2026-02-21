@@ -1,7 +1,7 @@
 (function () {
   const MAINTENANCE_START_HOUR = 13;
   const MAINTENANCE_START_MINUTE = 0;
-  const MAINTENANCE_END_HOUR = 13;
+  const MAINTENANCE_END_HOUR = 14;
   const MAINTENANCE_END_MINUTE = 30;
 
   function isMaintenanceTime() {
@@ -95,3 +95,4 @@
     init();
   }
 })();
+
