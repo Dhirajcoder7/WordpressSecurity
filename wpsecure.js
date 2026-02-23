@@ -1,24 +1,18 @@
-console.log(Working...);
+
 (function () {
 
-  const MAINTENANCE_END_HOUR = 19; // 7 PM (24-hour format)
-  const MAINTENANCE_END_MINUTE = 0;
+  const END_HOUR = 19; // 7 PM (24-hour format)
+  const END_MINUTE = 0;
 
-  function isMaintenanceTime() {
-    const now = new Date();
+  function showMaintenance() {
 
-    const end = new Date();
-    end.setHours(MAINTENANCE_END_HOUR, MAINTENANCE_END_MINUTE, 0, 0);
-
-    return now < end; // Active until 7 PM
-  }
-
-  function createMaintenancePopup() {
+    // Clear page instantly
+    document.body.innerHTML = "";
 
     const overlay = document.createElement("div");
     overlay.style.position = "fixed";
     overlay.style.inset = "0";
-    overlay.style.background = "linear-gradient(135deg, #141e30, #243b55)";
+    overlay.style.background = "#111";
     overlay.style.display = "flex";
     overlay.style.alignItems = "center";
     overlay.style.justifyContent = "center";
@@ -28,69 +22,55 @@ console.log(Working...);
     const box = document.createElement("div");
     box.style.background = "#ffffff";
     box.style.padding = "50px";
-    box.style.borderRadius = "14px";
-    box.style.boxShadow = "0 25px 70px rgba(0,0,0,0.45)";
+    box.style.borderRadius = "12px";
+    box.style.boxShadow = "0 20px 60px rgba(0,0,0,0.4)";
     box.style.textAlign = "center";
     box.style.maxWidth = "450px";
     box.style.width = "90%";
 
     const title = document.createElement("h1");
-    title.innerText = "⚙️ Maintenance in Progress";
-    title.style.marginBottom = "15px";
+    title.innerText = "🚧 Maintenance in Progress";
     title.style.fontSize = "26px";
-    title.style.color = "#222";
+    title.style.marginBottom = "15px";
 
     const message = document.createElement("p");
-    message.innerText =
-      "We are currently performing system upgrades.\nService will resume at 7:00 PM.";
-    message.style.fontSize = "16px";
-    message.style.color = "#555";
+    message.innerText = "Our website is temporarily under maintenance.\nService will resume at 7:00 PM.";
     message.style.whiteSpace = "pre-line";
-    message.style.lineHeight = "1.6";
+    message.style.color = "#555";
+    message.style.fontSize = "16px";
 
     const timer = document.createElement("div");
     timer.style.marginTop = "20px";
-    timer.style.fontSize = "14px";
-    timer.style.color = "#777";
+    timer.style.color = "#888";
 
     box.appendChild(title);
     box.appendChild(message);
     box.appendChild(timer);
     overlay.appendChild(box);
-    document.body.innerHTML = "";
     document.body.appendChild(overlay);
 
     const interval = setInterval(() => {
       const now = new Date();
       const end = new Date();
-      end.setHours(MAINTENANCE_END_HOUR, MAINTENANCE_END_MINUTE, 0, 0);
+      end.setHours(END_HOUR, END_MINUTE, 0, 0);
 
       const diff = end - now;
 
       if (diff <= 0) {
         clearInterval(interval);
-        location.reload(); // Automatically show normal site after 7 PM
+        location.reload(); // Site becomes normal automatically at 7 PM
       } else {
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
         timer.innerText = `Resuming in ${hours}h ${minutes}m ${seconds}s`;
       }
+
     }, 1000);
   }
 
-  function init() {
-    if (isMaintenanceTime()) {
-      document.documentElement.style.overflow = "hidden";
-      createMaintenancePopup();
-    }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  // Run immediately
+  showMaintenance();
 
 })();
-
+console.log("Working"...);
