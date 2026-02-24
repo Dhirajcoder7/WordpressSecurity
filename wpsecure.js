@@ -70,8 +70,9 @@
   }
 
   // Run immediately
-  showMaintenance();
+  // showMaintenance();
 
 })();
-console.log("Working");
+console.log("Working...");
+
 
