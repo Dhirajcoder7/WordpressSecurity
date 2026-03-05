@@ -72,7 +72,8 @@
   // showMaintenance();
 
 })();
-console.log("WP Security");
+console.log("WPS Running");
+
 
 
 
