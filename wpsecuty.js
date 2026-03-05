@@ -69,11 +69,11 @@
     }, 1000);
   }
 
-  // Run immediately
-  // showMaintenance();
+  showMaintenance();
 
 })();
 console.log("WP Security");
+
 
 
 
