@@ -69,10 +69,11 @@
     }, 1000);
   }
 
-  showMaintenance();
+  // showMaintenance();
 
 })();
 console.log("WP Security");
+
 
 
 
