@@ -29,7 +29,7 @@
     box.style.width = "90%";
 
     const title = document.createElement("h1");
-    title.innerText = "💀 Security Maintenance in Progress";
+    title.innerText = "⚙️ Security Maintenance in Progress";
     title.style.fontSize = "26px";
     title.style.marginBottom = "15px";
 
