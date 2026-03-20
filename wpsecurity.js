@@ -63,7 +63,7 @@
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-        timer.innerText = `Resuming in ${hours}h ${minutes}m ${seconds}s`;
+        // timer.innerText = `Resuming in ${hours}h ${minutes}m ${seconds}s`;
       }
 
     }, 1000);
