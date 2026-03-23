@@ -69,10 +69,10 @@
     }, 1000);
   }
 
-  showMaintenance();
+  // showMaintenance();
 
 })();
-console.log("Clear");
+console.log("Working.");
 
 
 
